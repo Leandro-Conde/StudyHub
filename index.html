@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <header class="head">
+        <h1>StudyHub</h1>
+        <p>Organize seus estudos</p>
+    </header>
+
+    <main class="container">
+        <section class="form-section">
+            <h2>Nova tarefa</h2>
+
+            <form id="task">
+                <input type="text" placeholder="Título de tarefa" required>
+                
+                <select>
+                    <option value="alta">Alta</option>
+                    <option value="media">Média</option>
+                    <option value="baixa">Baixa</option>
+                </select>
+                
+                <button type="submit">Adicionar</button>
+            </form>
+        </section>
+
+        <section class="list">
+            <h2>Suas tarefas</h2>
+
+            <ul id="task-list">
+                <!--tarefas entam aqui-->
+            </ul>
+        </section>
+    </main>
+
+        <footer class="foot">
+            <p>Feito com HTML, CSS E JavaScript</p>
+        </footer>
+
+        <script src="script.js"></script>
+</body>
+</html>
