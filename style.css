@@ -69,6 +69,10 @@ li {
     border-radius: 6px;
 }
 
+.alta {color:red;}
+.media {color: orange;}
+.baixa {color: green;}
+
 @media (min-width:768px) {
     .container {
         display: grid;
