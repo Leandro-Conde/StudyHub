@@ -7,6 +7,24 @@ const prioridade = document.querySelector ("#prioridade");
 //estado da aplicação
 let tasks = []; //vai mudar
 
+//salvando as tarefas
+function saveTasks() {
+    localStorage.setItem("tasks",JSON.stringify(tasks))
+}
+
+function loadTasks() {
+    const data = localStorage.getItem("tasks");
+
+    if (data) {
+        tasks = JSON.parse(data);
+    } else {
+        tasks=[];
+    }
+    renderTasks();
+}
+loadTasks();
+
+
 //formulário
 form.addEventListener("submit", (Event) => {
     Event.preventDefault();//reload(impede)
@@ -23,10 +41,11 @@ form.addEventListener("submit", (Event) => {
     //array
     const newTask = {
         titulo: title,
-        prioridade: priority
+        prioridade: priority,
+        concluida: false
     };
     tasks.push(newTask);
-
+    saveTasks();
     //Atualiza a tela
     renderTasks();
 
@@ -47,3 +66,4 @@ function renderTasks() {
         taskList.appendChild(li);
     });
 }
+
