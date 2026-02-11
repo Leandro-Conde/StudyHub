@@ -58,10 +58,23 @@ form.addEventListener("submit", (Event) => {
 function renderTasks() {
     taskList.innerHTML = "";
 
-    tasks.forEach((task) =>{
+    tasks.forEach((task, index) =>{
         const li = document.createElement("li");
 
         li.textContent = `${task.titulo} (${task.prioridade})`;
+
+        //ao concluuir vai adicionar uma class
+        if (task.concluida) {
+            li.classList.add("feito");
+        }
+
+        //evento de click
+        li.addEventListener("click", () => {
+
+            tasks[index].concluida = !tasks[index].concluida;
+            saveTasks();
+            renderTasks();
+        })
 
         taskList.appendChild(li);
     });

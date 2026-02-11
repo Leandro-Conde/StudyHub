@@ -73,6 +73,11 @@ li {
 .media {color: orange;}
 .baixa {color: green;}
 
+.feito {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
 @media (min-width:768px) {
     .container {
         display: grid;
