@@ -90,6 +90,8 @@ function renderTasks() {
     tarefasFiltradas.forEach((task, index) =>{
         const li = document.createElement("li");
 
+        li.addEventListener("click", () => {ta})
+
         li.textContent = `${task.titulo} (${task.prioridade})`;
 
         //ao concluir vai adicionar uma class
