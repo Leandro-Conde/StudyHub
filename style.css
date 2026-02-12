@@ -69,9 +69,21 @@ li {
     border-radius: 6px;
 }
 
-.alta {color:red;}
-.media {color: orange;}
-.baixa {color: green;}
+#task-list {
+    list-style: none;
+    padding: 0;
+}
+
+#task-list, li {
+    cursor: pointer;
+    padding: 8px;
+    transition: 02s;
+    margin-bottom: 10px;
+}
+
+#task-list, li:hover {
+    background-color: rgba(192, 39, 39, 0.05);
+}
 
 .feito {
     text-decoration: line-through;

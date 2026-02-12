@@ -1,11 +1,32 @@
+let filtroAtual = "todas";
 //elementos dom
 const form = document.querySelector("#task");
 const taskList = document.querySelector("#task-list"); //não vai mudar
 const titulo = document.querySelector("#titulo");
 const prioridade = document.querySelector ("#prioridade");
 
+const filtroTodas = document.getElementById("filtroTodas");
+const filtroPendentes = document.getElementById("filtroPendentes");
+const filtroConcluidas = document.getElementById("filtroConcluidas");
+
 //estado da aplicação
 let tasks = []; //vai mudar
+
+filtroTodas.addEventListener("click",() =>  {
+    filtroAtual = "todas";
+    renderTasks();
+})
+
+filtroPendentes.addEventListener("click",() =>  {
+    filtroAtual = "pendentes";
+    renderTasks();
+})
+
+filtroConcluidas.addEventListener("click",() =>  {
+    filtroAtual = "concluidas";
+    renderTasks();
+});
+
 
 //salvando as tarefas
 function saveTasks() {
@@ -58,15 +79,36 @@ form.addEventListener("submit", (Event) => {
 function renderTasks() {
     taskList.innerHTML = "";
 
-    tasks.forEach((task, index) =>{
+    let tarefasFiltradas = tasks;
+
+    if (filtroAtual === "pendentes") {
+        tarefasFiltradas = tasks.filter(task => !task.concluida);
+    } if (filtroAtual === "concluidas") {
+        tarefasFiltradas = tasks.filter(task => task.concluida);
+    }
+
+    tarefasFiltradas.forEach((task, index) =>{
         const li = document.createElement("li");
 
         li.textContent = `${task.titulo} (${task.prioridade})`;
 
-        //ao concluuir vai adicionar uma class
+        //ao concluir vai adicionar uma class
         if (task.concluida) {
             li.classList.add("feito");
         }
+
+            //criar botao
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "X";
+
+            //evento click
+            deleteBtn.addEventListener("click", (e) =>{
+            e.stopPropagation();//evita marcar como concluida
+            tasks.splice(index, 1);//remove 1 item da posição index
+            saveTasks();
+            renderTasks();
+            
+        });
 
         //evento de click
         li.addEventListener("click", () => {
@@ -74,9 +116,10 @@ function renderTasks() {
             tasks[index].concluida = !tasks[index].concluida;
             saveTasks();
             renderTasks();
-        })
+        });
 
+        li.appendChild(deleteBtn);
         taskList.appendChild(li);
-    });
+});
 }
 
