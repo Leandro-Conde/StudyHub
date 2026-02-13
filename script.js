@@ -85,6 +85,8 @@ function renderTasks() {
         tarefasFiltradas = tasks.filter(task => !task.concluida);
     } if (filtroAtual === "concluidas") {
         tarefasFiltradas = tasks.filter(task => task.concluida);
+    } if (task.concluida) {
+        li.classList.add("feito");
     }
 
     tarefasFiltradas.forEach((task, index) =>{
@@ -112,7 +114,7 @@ function renderTasks() {
             tasks.splice(index, 1);//remove 1 item da posição index
             saveTasks();
             renderTasks();
-            
+            e.stopPropagation();
         });
 
         //evento de click
