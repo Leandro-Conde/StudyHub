@@ -90,7 +90,10 @@ function renderTasks() {
     tarefasFiltradas.forEach((task, index) =>{
         const li = document.createElement("li");
 
-        li.addEventListener("click", () => {ta})
+        li.addEventListener("click", () => {task.concluida = !task.concluida;
+    saveTasks();
+    renderTasks();
+});
 
         li.textContent = `${task.titulo} (${task.prioridade})`;
 
