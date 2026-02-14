@@ -85,20 +85,18 @@ function renderTasks() {
         tarefasFiltradas = tasks.filter(task => !task.concluida);
     } if (filtroAtual === "concluidas") {
         tarefasFiltradas = tasks.filter(task => task.concluida);
-    } if (task.concluida) {
-        li.classList.add("feito");
     }
 
-    tarefasFiltradas.forEach((task, index) =>{
+    tarefasFiltradas.forEach((task) =>{
         const li = document.createElement("li");
 
+        li.textContent = `${task.titulo} (${task.prioridade})`;
+
+        //toggle
         li.addEventListener("click", () => {task.concluida = !task.concluida;
     saveTasks();
     renderTasks();
 });
-
-        li.textContent = `${task.titulo} (${task.prioridade})`;
-
         //ao concluir vai adicionar uma class
         if (task.concluida) {
             li.classList.add("feito");
@@ -111,10 +109,9 @@ function renderTasks() {
             //evento click
             deleteBtn.addEventListener("click", (e) =>{
             e.stopPropagation();//evita marcar como concluida
-            tasks.splice(index, 1);//remove 1 item da posição index
+            tasks = tasks.filter(t => t !== task);
             saveTasks();
             renderTasks();
-            e.stopPropagation();
         });
 
         //evento de click
