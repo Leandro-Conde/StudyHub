@@ -16,8 +16,8 @@ function updateCounter() {
     const concluidas = tasks.filter(task => task.concluida).length;
     const pendentes = total - concluidas;
 
-    contador.textContent = `Total: ${total }`
-}---------------------------------------------------
+    contador.textContent = `Total: ${total} pendentes: ${pendentes} | Concluidas: ${concluidas}`;
+}
 
 //estado da aplicação
 let tasks = []; //vai mudar
@@ -37,6 +37,12 @@ filtroConcluidas.addEventListener("click",() =>  {
     renderTasks();
 });
 
+clearBtn.addEventListener("click", () => {
+    tasks = tasks.filter(task => !task.concluida);
+
+    saveTasks();
+    renderTasks();
+})
 
 //salvando as tarefas
 function saveTasks() {
@@ -95,17 +101,66 @@ function renderTasks() {
         tarefasFiltradas = tasks.filter(task => !task.concluida);
     } if (filtroAtual === "concluidas") {
         tarefasFiltradas = tasks.filter(task => task.concluida);
-    }
+    } 
 
     tarefasFiltradas.forEach((task) =>{
         const li = document.createElement("li");
 
         li.textContent = `${task.titulo} (${task.prioridade})`;
+        
+        //botao de editar
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Editar";
+        
+        editBtn.addEventListener("click" , (e) => {e.stopPropagation();
+        
+            li.innerHTML = "";
+
+            //cria input
+            const input = document.createElement("input")
+            input.type = "text";
+            input.value = task.titulo;
+
+            //botao criado: salvar
+            const saveBtn = document.createElement("button");
+            saveBtn.textContent = "Salvar";
+
+            //botao salvar
+            saveBtn.addEventListener("click", () => {
+                const novoTexto = input.value.trim();
+
+                if (novoTexto !=="") {
+                    task.titulo = novoTexto;
+                    saveTasks();
+                    renderTasks();
+                }
+            });
+
+            //salvar com enter
+            input.addEventListener("keydown", (Event) => {
+                if (Event.key === "Enter") {
+                    saveBtn.click();
+                }
+                if (Event.key === "Escape") {
+                    renderTasks(); //cancela edição
+                }
+            });
+
+                li.appendChild(input);
+                li.appendChild(saveBtn);
+
+                input.focus();
+
+                });
+
+        
 
         //toggle
         li.addEventListener("click", () => {task.concluida = !task.concluida;
     saveTasks();
     renderTasks();
+
+    updateCounter();
 });
         //ao concluir vai adicionar uma class
         if (task.concluida) {
@@ -116,6 +171,7 @@ function renderTasks() {
             const deleteBtn = document.createElement("button");
             deleteBtn.textContent = "X";
 
+
             //evento click
             deleteBtn.addEventListener("click", (e) =>{
             e.stopPropagation();//evita marcar como concluida
@@ -124,23 +180,11 @@ function renderTasks() {
             renderTasks();
         });
 
-        clearBtn.addEventListener("click", () => {
-            tasks = tasks.filter(task => !task.concluida);
-
-            saveTasks();
-            renderTasks();
-        })
-
-        //evento de click
-        li.addEventListener("click", () => {
-
-            tasks[index].concluida = !tasks[index].concluida;
-            saveTasks();
-            renderTasks();
-        });
-
+        
+        li.appendChild(editBtn);
         li.appendChild(deleteBtn);
         taskList.appendChild(li);
-});
+    });
 }
+
 
