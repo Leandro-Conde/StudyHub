@@ -9,6 +9,15 @@ const filtroTodas = document.getElementById("filtroTodas");
 const filtroPendentes = document.getElementById("filtroPendentes");
 const filtroConcluidas = document.getElementById("filtroConcluidas");
 const clearBtn = document.getElementById("clearCompleted");
+const contador = document.getElementById("contador");
+
+function updateCounter() {
+    const total = tasks.length;
+    const concluidas = tasks.filter(task => task.concluida).length;
+    const pendentes = total - concluidas;
+
+    contador.textContent = `Total: ${total }`
+}---------------------------------------------------
 
 //estado da aplicação
 let tasks = []; //vai mudar
