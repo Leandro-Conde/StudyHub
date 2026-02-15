@@ -8,6 +8,7 @@ const prioridade = document.querySelector ("#prioridade");
 const filtroTodas = document.getElementById("filtroTodas");
 const filtroPendentes = document.getElementById("filtroPendentes");
 const filtroConcluidas = document.getElementById("filtroConcluidas");
+const clearBtn = document.getElementById("clearCompleted");
 
 //estado da aplicação
 let tasks = []; //vai mudar
@@ -113,6 +114,13 @@ function renderTasks() {
             saveTasks();
             renderTasks();
         });
+
+        clearBtn.addEventListener("click", () => {
+            tasks = tasks.filter(task => !task.concluida);
+
+            saveTasks();
+            renderTasks();
+        })
 
         //evento de click
         li.addEventListener("click", () => {
