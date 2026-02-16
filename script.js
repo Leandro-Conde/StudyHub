@@ -1,4 +1,8 @@
 let filtroAtual = "todas";
+let draggedItem = null;
+//estado da aplicação
+let tasks = []; //vai mudar
+
 //elementos dom
 const form = document.querySelector("#task");
 const taskList = document.querySelector("#task-list"); //não vai mudar
@@ -11,7 +15,6 @@ const filtroConcluidas = document.getElementById("filtroConcluidas");
 const clearBtn = document.getElementById("clearCompleted");
 const contador = document.getElementById("contador");
 
-let draggedItem = null;
 
 function updateCounter() {
     const total = tasks.length;
@@ -21,8 +24,6 @@ function updateCounter() {
     contador.textContent = `Total: ${total} pendentes: ${pendentes} | Concluidas: ${concluidas}`;
 }
 
-//estado da aplicação
-let tasks = []; //vai mudar
 
 
 const temaEscuro = document.getElementById("temaEscuro");
@@ -34,11 +35,9 @@ if (saveTema ==="dark") {
     document.body.classList.add("dark");
 }
 
- if (!saveTema) {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+ if (!saveTema && window.matchMedia("(prefers-color-scheme: dark)").matches) {
         document.body.classList.add("dark");
     }
-}
 
 temaEscuro.addEventListener("click", ()=> {
     document.body.classList.toggle("dark");
@@ -50,7 +49,7 @@ temaEscuro.addEventListener("click", ()=> {
         localStorage.setItem("tema", "light");
         temaEscuro.textContent = "Escuro";
     }
-})
+});
 
 filtroTodas.addEventListener("click",() =>  {
     filtroAtual = "todas";
@@ -76,7 +75,7 @@ clearBtn.addEventListener("click", () => {
 
 //salvando as tarefas
 function saveTasks() {
-    localStorage.setItem("tasks",JSON.stringify(tasks))
+    localStorage.setItem("tasks",JSON.stringify(tasks));
 }
 
 function loadTasks() {
@@ -112,6 +111,7 @@ form.addEventListener("submit", (Event) => {
         prioridade: priority,
         concluida: false
     };
+
     tasks.push(newTask);
     saveTasks();
     //Atualiza a tela
@@ -140,6 +140,7 @@ function renderTasks() {
         li.dataset.id = task.id;
 
         li.textContent = `${task.titulo} (${task.prioridade})`;
+        li.classList.add(`prioridade-${task.prioridade}`)
         
         //botao de editar
         const editBtn = document.createElement("button");
@@ -254,4 +255,6 @@ function renderTasks() {
         li.appendChild(editBtn);
         li.appendChild(deleteBtn);
         taskList.appendChild(li);
-});  //criar localtorage remove item
+});
+
+}
