@@ -11,11 +11,13 @@ const filtroConcluidas = document.getElementById("filtroConcluidas");
 const clearBtn = document.getElementById("clearCompleted");
 const contador = document.getElementById("contador");
 
+let draggedItem = null;
+
 function updateCounter() {
     const total = tasks.length;
     const concluidas = tasks.filter(task => task.concluida).length;
     const pendentes = total - concluidas;
-
+    
     contador.textContent = `Total: ${total} pendentes: ${pendentes} | Concluidas: ${concluidas}`;
 }
 
@@ -30,6 +32,12 @@ const saveTema = localStorage.getItem("tema");
 
 if (saveTema ==="dark") {
     document.body.classList.add("dark");
+}
+
+ if (!saveTema) {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.body.classList.add("dark");
+    }
 }
 
 temaEscuro.addEventListener("click", ()=> {
@@ -99,6 +107,7 @@ form.addEventListener("submit", (Event) => {
 
     //array
     const newTask = {
+        id: Date.now(),
         titulo: title,
         prioridade: priority,
         concluida: false
@@ -127,6 +136,8 @@ function renderTasks() {
 
     tarefasFiltradas.forEach((task) =>{
         const li = document.createElement("li");
+
+        li.dataset.id = task.id;
 
         li.textContent = `${task.titulo} (${task.prioridade})`;
         
@@ -202,11 +213,45 @@ function renderTasks() {
             renderTasks();
         });
 
+    li.draggable = true;
+
+    li.addEventListener("dragstart", () => {
+        draggedItem = li;
+        li.classList.add("dragging");
+    });
+
+    li.addEventListener("dragend", () => {
+    li.classList.remove("dragging");
+        });
+
+        li.addEventListener("dragover", (e) => {
+            e.preventDefault(); 
+        });
+
+        li.addEventListener("drop", () => {
+            if (draggedItem !== li) {
+                const parent = li.parentNode;
+                parent.insertBefore(draggedItem,li);
+            }
+
+            const items = document.querySelectorAll("li");
+            const novaOrdem = [];
+
+            items.forEach(item => {
+                const id = Number (item.dataset.id);
+                const tarefaOriginal = tasks.find(t => t.id === id);
+
+            if (tarefaOriginal) {
+            novaOrdem.push(tarefaOriginal);
+            }
+        });
+
+        tasks = novaOrdem;
+        saveTasks();
         
+    });
+
         li.appendChild(editBtn);
         li.appendChild(deleteBtn);
         taskList.appendChild(li);
-    });
-}
-
-
+});  //criar localtorage remove item
