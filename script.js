@@ -22,6 +22,28 @@ function updateCounter() {
 //estado da aplicação
 let tasks = []; //vai mudar
 
+
+const temaEscuro = document.getElementById("temaEscuro");
+
+//caregar tema salvo
+const saveTema = localStorage.getItem("tema");
+
+if (saveTema ==="dark") {
+    document.body.classList.add("dark");
+}
+
+temaEscuro.addEventListener("click", ()=> {
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("tema", "dark");
+        temaEscuro.textContent = "Claro";
+    } else {
+        localStorage.setItem("tema", "light");
+        temaEscuro.textContent = "Escuro";
+    }
+})
+
 filtroTodas.addEventListener("click",() =>  {
     filtroAtual = "todas";
     renderTasks();
